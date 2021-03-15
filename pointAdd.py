@@ -47,13 +47,13 @@ Y = list(map(str, input().split()))
 if(X[0]==O):
     X = O
 else:
-    X[0] = int(X[0])
-    X[1] = int(X[1])
+    X[0] = int(X[0])%p
+    X[1] = int(X[1])%p
 if(Y[0]==O):
     Y = O
 else:
-    Y[0] = int(Y[0])
-    Y[1] = int(Y[1])
+    Y[0] = int(Y[0])%p
+    Y[1] = int(Y[1])%p
 print("X+Y = ", end="")
 R = addPoints(X,Y)
 print(R)
