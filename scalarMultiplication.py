@@ -1,18 +1,19 @@
 # Y^2 = X^3 + aX + b
 # p = modulus
+from Crypto.Util.number import inverse
 p = 9739
 a = 497
 b = 1768
 O = "O" #point at infinity
 
-def modInverse(a, m):
-	for x in range(1, m):
-		if (((a%m) * (x%m)) % m == 1):
-			return x
-	return -1
+def point_inverse(P):
+    if P == O:
+        return P
+    P[1]=-P[1]%p
+    return P
 
 def div(a, b):
-    x = modInverse(b, p)
+    x = inverse(b, p)
     if(x==-1):
         print("error")
         return -1
@@ -46,10 +47,8 @@ def scalarMultiply(P,n):
     while(n>0):
         if n%2==1:
             R = addPoints(R,Q)
-            n = n-1
-        else:
-            Q = addPoints(Q,Q)
-            n = n/2
+        Q = addPoints(Q,Q)
+        n = n//2
     return R
 
 print("enter scalar 'n': ",end="")
