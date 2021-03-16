@@ -1,5 +1,6 @@
 # Y^2 = X^3 + aX + b
 # p = modulus
+from Crypto.Util.number import inverse
 p = 9739
 a = 497
 b = 1768
@@ -12,7 +13,7 @@ def modInverse(a, m):
 	return -1
 
 def div(a, b):
-    x = modInverse(b, p)
+    x = inverse(b, p)
     if(x==-1):
         print("error")
         return -1
@@ -21,7 +22,7 @@ def div(a, b):
 def addPoints(P, Q):
     if(P==O):
         return Q
-    if(Q==O):
+    elif(Q==O):
         return P
     else:
         x1 = P[0]
@@ -40,21 +41,28 @@ def addPoints(P, Q):
     y3 = (l*(x1-x3)-y1)%p
     return [x3,y3]
 
-print("X = ",end="")
-X = list(map(str, input().split()))
-print("Y = ",end="")
-Y = list(map(str, input().split()))
-if(X[0]==O):
-    X = O
-else:
-    X[0] = int(X[0])%p
-    X[1] = int(X[1])%p
-if(Y[0]==O):
-    Y = O
-else:
-    Y[0] = int(Y[0])%p
-    Y[1] = int(Y[1])%p
-print("X+Y = ", end="")
-R = addPoints(X,Y)
-print(R)
+def scalarMultiply(P,n):
+    Q = P
+    R = O
+    while(n>0):
+        if n%2==1:
+            R = addPoints(R,Q)
+            n = n-1
+        else:
+            Q = addPoints(Q,Q)
+            n = n/2
+    return R
 
+print("enter scalar 'n': ",end="")
+n = int(input())
+print("enter point 'P': ", end="")
+P = list(map(str, input().split()))
+if(P[0]==O):
+    P=O
+else:
+    P[0] = int(P[0])%p
+    P[1] = int(P[1])%p
+
+R = scalarMultiply(P,n)
+print("nP = ", end="")
+print(R)
